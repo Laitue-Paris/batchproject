@@ -20,7 +20,7 @@ export const expermiental_ppr = true;
 
 const page = async ({params}: {params: Promise<{ id:string}>,}) => {
   const id = (await params).id
-  const post = await client.fetch(PROJECT_BY_ID_QUERY, {id}); 
+  const post = await client.fetch(PROJECT_BY_ID_QUERY, {id});
   const session = await auth();
   if(!post) return notFound();
   const editorPosts = await client.fetch(PLAYLIST_BY_BATCH_QUERY, { batch: post?.batch, id: id })
@@ -38,23 +38,23 @@ const page = async ({params}: {params: Promise<{ id:string}>,}) => {
           <Link
           href={`/project/${id}/edit`}>
             <Button
-              className="mt-4 !bg-secondary">            
+              className="mt-4 !bg-secondary">
             Edit
             </Button></Link>
         ) : ("")
         }
-        
+
       </section>
-      
+
       <section className="section_container">
         <img
           src={post.image}
           alt="thumbnail"
           className="w-full h-auto rounded-xl"
         />
-        
+
         <div className="space-y-5 mt-10 max-w-4xl mx-auto">
-          <div className="flex-between gap-5">
+          <div className="flex flex-col md:flex-row md:flex-between gap-5">
             <Link
               href={`/user/${post.author?._id}`}
               className="flex gap-2 items-center mb-3"
@@ -89,8 +89,8 @@ const page = async ({params}: {params: Promise<{ id:string}>,}) => {
           </div>
           <hr className="divider" />
           <h3 className="text-30-bold">Pitch Details</h3>
-            { parsedContent ? ( 
-              <article 
+            { parsedContent ? (
+              <article
                 className="prose m-w-4xl font-work-sans break-all"
                 dangerouslySetInnerHTML={{__html: parsedContent}}
               />
