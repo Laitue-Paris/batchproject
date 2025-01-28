@@ -1,41 +1,67 @@
 import { defineQuery } from "next-sanity";
 
-export const STARTUPS_QUERY =
-  defineQuery(`*[_type == "startup" && defined(slug.current) && !defined($search) || title match $search || category match $search || author->name match $search] | order(_createdAt desc) {
-  _id, 
-  title, 
+export const PROJECTS_QUERY = 
+defineQuery(
+  `*[_type == "project" && defined(slug.current) && !defined($search) || title match $search || category match $search || batch match $search || author->name match $search] | order(_createdAt desc){
+  _id,
+  title,
   slug,
+  batch,
   _createdAt,
   author -> {
-    _id, name, image, bio
-  }, 
-  views,
-  description,
-  category,
-  image,
-}`);
-
-export const STARTUP_BY_ID_QUERY =
-  defineQuery(`*[_type == "startup" && _id == $id][0]{
-  _id, 
-  title, 
-  slug,
-  _createdAt,
-  author -> {
-    _id, name, username, image, bio
-  }, 
+    _id,
+    name,
+    image,
+    bio,
+    batch,
+  },
   views,
   description,
   category,
   image,
   pitch,
-}`);
+}`
+);
 
-export const STARTUP_VIEWS_QUERY = defineQuery(`
-    *[_type == "startup" && _id == $id][0]{
-        _id, views
-    }
-`);
+export const PROJECT_BY_ID_QUERY = 
+defineQuery(
+  `*[_type == "project" && _id == $id ][0]{
+  _id, 
+  title, 
+  slug,
+  batch,
+  depot,
+  _createdAt,
+  author -> {
+    _id,
+    name,
+    username,
+    image,
+    bio,
+  },
+  views, 
+  description,
+  category,
+  image,
+  pitch,
+}`
+);
+
+export const AUTHOR_BY_ID_QUERY = 
+defineQuery(
+  `*[_type == "author" && _id == $id][0]{
+  _id,
+  id,
+  name,
+  username,
+  startup -> {
+    batch,
+  },
+  email,
+  image,
+  bio,
+}`
+);
 
 export const AUTHOR_BY_GITHUB_ID_QUERY = defineQuery(`
 *[_type == "author" && id == $id][0]{
@@ -49,24 +75,14 @@ export const AUTHOR_BY_GITHUB_ID_QUERY = defineQuery(`
 }
 `);
 
-export const AUTHOR_BY_ID_QUERY = defineQuery(`
-*[_type == "author" && _id == $id][0]{
-    _id,
-    id,
-    name,
-    username,
-    email,
-    image,
-    bio
-}
-`);
 
-export const STARTUPS_BY_AUTHOR_QUERY =
-  defineQuery(`*[_type == "startup" && author._ref == $id] | order(_createdAt desc) {
+export const PROJECTS_BY_AUTHOR_QUERY =
+  defineQuery(`*[_type == "project" && author._ref == $id] | order(_createdAt desc) {
   _id, 
   title, 
   slug,
   _createdAt,
+  batch,
   author -> {
     _id, name, image, bio
   }, 
@@ -76,27 +92,35 @@ export const STARTUPS_BY_AUTHOR_QUERY =
   image,
 }`);
 
-export const PLAYLIST_BY_SLUG_QUERY =
-  defineQuery(`*[_type == "playlist" && slug.current == $slug][0]{
+export const PROJECT_VIEW_QUERY = 
+defineQuery(
+  `*[_type == "project" && _id == $id ][0]{
   _id,
-  title,
+  views
+}`
+);
+
+export const BATCHES_BY_AUTHOR_QUERY = 
+defineQuery(
+  `*[_type == "project" && author._ref == $id] | order(batch asc) {
+  batch,
+}`
+);
+
+export const PLAYLIST_BY_BATCH_QUERY =
+  defineQuery(`*[_type == "project" && batch == $batch && _id != $id] | order(_createdAt desc) {
+  _id, 
+  title, 
   slug,
-  select[]->{
-    _id,
-    _createdAt,
-    title,
-    slug,
-    author->{
-      _id,
-      name,
-      slug,
-      image,
-      bio
-    },
-    views,
-    description,
-    category,
-    image,
-    pitch
-  }
+  _createdAt,
+  batch,
+  author -> {
+    _id, name, image, bio
+  }, 
+  views,
+  description,
+  category,
+  image,
 }`);
+
+

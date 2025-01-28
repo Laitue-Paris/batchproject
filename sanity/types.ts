@@ -125,31 +125,15 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type Playlist = {
+export type Project = {
   _id: string;
-  _type: "playlist";
+  _type: "project";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
   title?: string;
   slug?: Slug;
-  select?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "startup";
-  }>;
-};
-
-export type Startup = {
-  _id: string;
-  _type: "startup";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-  slug?: Slug;
+  batch?: string;
   author?: {
     _ref: string;
     _type: "reference";
@@ -160,6 +144,7 @@ export type Startup = {
   description?: string;
   category?: string;
   image?: string;
+  depot?: string;
   pitch?: string;
 };
 
@@ -185,5 +170,5 @@ export type Author = {
 
 export type Markdown = string;
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | SanityAssetSourceData | Playlist | Startup | Slug | Author | Markdown;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | SanityAssetSourceData | Project | Slug | Author | Markdown;
 export declare const internalGroqTypeReferenceTo: unique symbol;
