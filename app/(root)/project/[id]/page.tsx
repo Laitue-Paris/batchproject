@@ -54,7 +54,7 @@ const page = async ({params}: {params: Promise<{ id:string}>,}) => {
         />
 
         <div className="space-y-5 mt-10 max-w-4xl mx-auto">
-          <div className="flex flex-col md:flex-row md:flex-between gap-5">
+          <div className="flex flex-col md:flex-row md:flex-between xs:items-center gap-5">
             <Link
               href={`/user/${post.author?._id}`}
               className="flex gap-2 items-center mb-3"
@@ -74,18 +74,24 @@ const page = async ({params}: {params: Promise<{ id:string}>,}) => {
                 </p>
               </div>
             </Link>
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center xs:mb-3">
               <p>Lien du Dépot :</p>
               <Link href={`${post?.depot}`} target="blank">
                 <FaGithub size={32} />
               </Link>
             </div>
-            <Link href={`/?query=${post.batch?.toLowerCase()}`}>
-              <p className="category-tag !bg-primary">Batch : #{post.batch}</p>
-            </Link>
-            <Link href={`/?query=${post.category?.toLowerCase()}`}>
-              <p className="category-tag">{post.category}</p>
-            </Link>
+            <div className="flex flex-wrap justify-center gap-5">
+              <div className="flex flex-col items-center">
+                <Link href={`/?query=${post.batch?.toLowerCase()}`}>
+                  <p className="category-tag !bg-primary">Batch : #{post.batch}</p>
+                </Link>
+              </div>
+              <div className="flex flex-col items-center">
+                <Link href={`/?query=${post.category?.toLowerCase()}`}>
+                  <p className="category-tag">{post.category}</p>
+                </Link>
+              </div>
+            </div>
           </div>
           <hr className="divider" />
           <h3 className="text-30-bold">Pitch Details</h3>
